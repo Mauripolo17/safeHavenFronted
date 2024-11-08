@@ -1,24 +1,25 @@
 import React from 'react';
-// import 'primereact/resources/themes/bootstrap4-light-blue/theme.css';
-// import 'primereact/resources/primereact.min.css';
-// import 'primeicons/primeicons.css'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SafeHaven from './components/menu';
 import Header from './components/header';
 import { Footer } from './components/footer';
-
-
-
-
+import AuthMenu from './components/authmenu';
+import AppointmentPage from './components/appointmentpage';
 
 function App() {
-  
-return (
-<div>
-    <Header/>
-    <SafeHaven/>
-    <Footer/>
-</div>
-)
+  return (
+    <Router>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="/" element={<SafeHaven />} />
+          <Route path="/login" element={<AuthMenu />} />
+          <Route path="/agendar-cita" element={<AppointmentPage />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
 export default App;
