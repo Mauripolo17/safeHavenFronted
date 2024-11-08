@@ -4,8 +4,15 @@ import "../assets/styles/style.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import logoExtendido from "../assets/images/logo-extendido.png";
 import AuthMenu from "./authmenu";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    navigate("/");
+  }
+
   const margin = {
     marginRight: "100px",
   };
@@ -42,7 +49,11 @@ function Header() {
           >
             <ul className="navbar-nav ms-auto">
               <Dropdown className="me-4">
-                <Dropdown.Toggle className="no-caret fs-5" variant="light" id="dropdown-basic">
+                <Dropdown.Toggle 
+                  className="no-caret fs-5" 
+                  variant="light" 
+                  id="dropdown-basic"
+                  onClick={handleHomeClick}>
                   Home
                 </Dropdown.Toggle>
               </Dropdown>

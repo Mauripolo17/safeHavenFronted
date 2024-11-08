@@ -1,14 +1,29 @@
 import React from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import diomedesImg from "../assets/images/Diomedes.jpg";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   return (
     <Container className="mt-5">
-      <h2>¿Qué desea hacer?</h2>
+      <h2>Panel de control</h2>
       <Row className="mt-4">
+        <Row className="mt-4">
+            <Col md={12} className="text-center">
+            <img
+                src={diomedesImg}
+                alt="Bienvenido"
+                style={{
+                width: "200px",
+                height: "auto",
+                marginBottom: "20px",
+                }}
+            />
+            <h3>¡Hola, Diome! Estamos felices de tenerte aquí.</h3>
+            </Col>
+        </Row>
         <Col md={4}>
           <Card className="mb-4">
             <Card.Body>

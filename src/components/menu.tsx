@@ -2,8 +2,15 @@ import React from "react";
 import logoBanner from "../assets/images/logo-banner.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
+import { useNavigate } from "react-router-dom";
 
 function SafeHaven() {
+
+  const navigate = useNavigate();
+
+  const handleRedirect = () => {
+    navigate('/login');
+  }
   return (
     <>
       <div className="banner_section">
@@ -20,13 +27,18 @@ function SafeHaven() {
                 más importante.
               </p>
               <div className="agendar-conocemas d-flex">
-                <button type="button" className="btn btn-lg me-2" style={{ backgroundColor: '#b0c4de', color: '#fff' }}>
-                  Agendar cita
-                </button>
-                <button type="button" className="btn btn-lg ms-2">
-                  Conoce mas
-                </button>
-              </div>
+              <button
+                type="button"
+                className="btn btn-lg me-2"
+                style={{ backgroundColor: '#b0c4de', color: '#fff' }}
+                onClick={handleRedirect}
+              >
+                Agendar cita
+              </button>
+              <button type="button" className="btn btn-lg ms-2">
+                Conoce mas
+              </button>
+            </div>
             </div>
             <div className="col-md-6 d-flex justify-content-center">
               <div className="image_1 d-flex justify-content-center">

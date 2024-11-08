@@ -12,7 +12,6 @@ function AuthMenu() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Redirige al panel de control en lugar de la página de agendar citas
     navigate("/dashboard");
   };
 
