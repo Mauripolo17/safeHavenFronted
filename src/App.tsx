@@ -5,6 +5,7 @@ import Header from './components/header';
 import { Footer } from './components/footer';
 import AuthMenu from './components/authmenu';
 import AppointmentPage from './components/appointmentpage';
+import Dashboard from './components/dashboard';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<SafeHaven />} />
           <Route path="/login" element={<AuthMenu />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/agendar-cita" element={<AppointmentPage />} />
         </Routes>
         <Footer />

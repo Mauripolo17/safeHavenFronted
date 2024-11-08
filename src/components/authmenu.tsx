@@ -12,12 +12,8 @@ function AuthMenu() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/agendar-cita");
-  };
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-    navigate("/agendar-cita");
+    // Redirige al panel de control en lugar de la página de agendar citas
+    navigate("/dashboard");
   };
 
   return (
@@ -59,18 +55,18 @@ function AuthMenu() {
       ) : (
         <>
           <h5 className="mb-4">Registro</h5>
-          <Form onSubmit={handleRegister}>
-            <Form.Group controlId="formRegisterEmail" className="mb-3">
+          <Form>
+            <Form.Group controlId="formBasicName" className="mb-3">
+              <Form.Label>Nombre completo</Form.Label>
+              <Form.Control type="text" placeholder="Ingrese su nombre" />
+            </Form.Group>
+            <Form.Group controlId="formBasicEmail" className="mb-3">
               <Form.Label>Correo electrónico</Form.Label>
               <Form.Control type="email" placeholder="Ingrese su correo" />
             </Form.Group>
-            <Form.Group controlId="formRegisterPassword" className="mb-3">
+            <Form.Group controlId="formBasicPassword" className="mb-3">
               <Form.Label>Contraseña</Form.Label>
               <Form.Control type="password" placeholder="Contraseña" />
-            </Form.Group>
-            <Form.Group controlId="formRegisterConfirmPassword" className="mb-3">
-              <Form.Label>Confirmar Contraseña</Form.Label>
-              <Form.Control type="password" placeholder="Confirmar Contraseña" />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mt-3">
               Registrarse
