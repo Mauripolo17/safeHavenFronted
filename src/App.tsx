@@ -7,6 +7,7 @@ import AuthMenu from './components/authmenu';
 import AppointmentPage from './components/appointmentpage';
 import PatientHistoryPage from './components/patienthistorypage';
 import ProfilePage from './components/profilepage';
+import PsychologistPage from './components/psychologistpage';
 import Dashboard from './components/dashboard';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/agendar-cita" element={<AppointmentPage />} />
           <Route path="/historial" element={<PatientHistoryPage/>} />
           <Route path="/perfil" element={<ProfilePage/>} />
+          <Route path="/psicologos" element={<PsychologistPage/>} />
         </Routes>
         <Footer />
       </div>

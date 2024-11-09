@@ -71,7 +71,7 @@ function Header() {
                   Relevante
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item href="#/action-1">Psicologos</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate('/psicologos')}>Psicologos</Dropdown.Item>
                   <Dropdown.Item href="#/action-2">Nuestras sesiones</Dropdown.Item>
                   <Dropdown.Item href="#/action-3">Servicio de acompañamiento</Dropdown.Item>
                 </Dropdown.Menu>
