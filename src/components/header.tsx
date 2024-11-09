@@ -90,7 +90,7 @@ function Header() {
                   variant="primary"
                   id="authDropdown"
                   className="ms-3 fs-5 px-4 py-2 no-caret"
-                  style={{ backgroundColor: '#b0c4de', color: '#fff', minWidth: '180px'}}
+                  style={{ backgroundColor: '#b0c4de', color: '#fff', minWidth: '180px', border: 'none'}}
                 >
                   Iniciar sesión
                 </Dropdown.Toggle>
