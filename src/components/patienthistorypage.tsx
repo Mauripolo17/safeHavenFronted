@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container, Card, Table, Badge, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Card, Table, Badge, Button, Modal } from 'react-bootstrap';
 
 interface HistorialRecord {
   id: number;
@@ -16,12 +16,9 @@ interface UserInfo {
 }
 
 const PersonalHistoryPage: React.FC = () => {
-  const userInfo: UserInfo = {
-    nombre: "Diomedes Díaz",
-    edad: 28
-  };
-
-  const personalHistory: HistorialRecord[] = [
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null);
+  const [personalHistory, setPersonalHistory] = useState<HistorialRecord[]>([
     {
       id: 1,
       fecha: "2024-03-15",
@@ -46,7 +43,12 @@ const PersonalHistoryPage: React.FC = () => {
       estado: "Pendiente",
       comentarios: "Cita de seguimiento programada"
     }
-  ];
+  ]);
+
+  const userInfo: UserInfo = {
+    nombre: "Diomedes Díaz",
+    edad: 28
+  };
 
   const getBadgeVariant = (estado: string) => {
     switch (estado) {
@@ -61,12 +63,31 @@ const PersonalHistoryPage: React.FC = () => {
     }
   };
 
+  const handleCancelClick = (appointmentId: number) => {
+    setSelectedAppointment(appointmentId);
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmCancel = () => {
+    if (selectedAppointment) {
+      setPersonalHistory(prevHistory =>
+        prevHistory.map(appointment =>
+          appointment.id === selectedAppointment
+            ? { ...appointment, estado: 'Cancelada' }
+            : appointment
+        )
+      );
+    }
+    setShowConfirmModal(false);
+    setSelectedAppointment(null);
+  };
+
   return (
     <Container className="mt-5">
       <Card>
         <Card.Header className="d-flex justify-content-between align-items-center">
           <div>
-            <h3 className="mb-0">Mi Historial Médico</h3>
+            <h3 className="mb-0">Mi Historial de Citas</h3>
             <small className="text-muted">Bienvenido/a, {userInfo.nombre}</small>
           </div>
           <Button variant="primary" href="/agendar-cita">
@@ -83,6 +104,7 @@ const PersonalHistoryPage: React.FC = () => {
                   <th>Diagnóstico</th>
                   <th>Estado</th>
                   <th>Comentarios</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -97,6 +119,18 @@ const PersonalHistoryPage: React.FC = () => {
                       </Badge>
                     </td>
                     <td>{record.comentarios}</td>
+                    <td>
+                      {record.estado === 'Pendiente' && (
+                        <Button
+                          style={{ width: '140px' }} 
+                          variant="outline-danger"
+                          size="md"
+                          onClick={() => handleCancelClick(record.id)}
+                        >
+                          Cancelar Cita
+                        </Button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -112,6 +146,23 @@ const PersonalHistoryPage: React.FC = () => {
           )}
         </Card.Body>
       </Card>
+
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmar Cancelación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          ¿Estás seguro que deseas cancelar esta cita? Esta acción no se puede deshacer.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+            Volver
+          </Button>
+          <Button variant="danger" onClick={handleConfirmCancel}>
+            Sí, Cancelar Cita
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
