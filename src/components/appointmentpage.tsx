@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 
-// Asegúrate de que las imágenes están en la carpeta assets/images con los nombres correctos
 import drBayterImg from "../assets/images/dr-bayter.jpeg";
 import drPechyImg from "../assets/images/dr-pechy.png";
 import drChuroImg from "../assets/images/dr-churo.png";
