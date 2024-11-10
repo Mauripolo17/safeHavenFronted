@@ -7,7 +7,7 @@ import AuthMenu from './components/authmenu';
 import AppointmentPage from './components/appointmentpage';
 import PatientHistoryPage from './components/patienthistorypage';
 import ProfilePage from './components/profilepage';
-import PsychologistPage from './components/psychologistpage';
+import PsychologistPage from './components/psychologistPage';
 import Dashboard from './components/dashboard';
 
 function App() {

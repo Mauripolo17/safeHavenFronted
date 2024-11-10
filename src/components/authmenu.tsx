@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 function AuthMenu() {
   const [isLogin, setIsLogin] = useState(true);
-  const [birthdate, setBirthdate] = useState(null); // State for birthdate
+  const [birthdate, setBirthdate] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const toggleAuthMode = () => {
@@ -13,7 +16,14 @@ function AuthMenu() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/dashboard");
+    if (email === "any@gmail.com" && password === 'exact') {
+        navigate("/dashboard");
+    }
+  };
+
+  const loadUsers = async () => {
+      const result = await axios.get("http://localhost:8080/api/pacientes");
+      return(result.data);
   };
 
   return (
@@ -32,11 +42,11 @@ function AuthMenu() {
           <Form onSubmit={handleLogin}>
             <Form.Group controlId="formBasicEmail" className="mb-3">
               <Form.Label>Correo electrónico</Form.Label>
-              <Form.Control type="email" placeholder="Ingrese su correo" />
+              <Form.Control type="email" placeholder="Ingrese su correo" value={email} onChange= {(e) => setEmail(e.target.value)}/>
             </Form.Group>
             <Form.Group controlId="formBasicPassword" className="mb-3">
               <Form.Label>Contraseña</Form.Label>
-              <Form.Control type="password" placeholder="Contraseña" />
+              <Form.Control type="password" placeholder="Contraseña" value={password} onChange= {(e) => setPassword(e.target.value)}/>
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 mt-3">
               Iniciar sesión
