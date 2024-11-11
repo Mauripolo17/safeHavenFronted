@@ -7,7 +7,7 @@ import drChuroImg from "../assets/images/dr-churo.png";
 import verificationImg from "../assets/images/verification.png";
 
 function AppointmentPage() {
-  const [selectedPsychologist, setSelectedPsychologist] = useState(null);
+  const [selectedPsychologist, setSelectedPsychologist] = useState<{ name: string; image: string } | null>(null);
   const [appointmentConfirmed, setAppointmentConfirmed] = useState(false);
 
   const psychologists = [
@@ -25,11 +25,11 @@ function AppointmentPage() {
     },
   ];
 
-  const handleSelectPsychologist = (psychologist) => {
+  const handleSelectPsychologist = (psychologist: { name: string; image: string }) => {
     setSelectedPsychologist(psychologist);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setAppointmentConfirmed(true);
   };

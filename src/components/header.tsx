@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import logoExtendido from "../assets/images/logo-extendido.png";
 import AuthMenu from "./authmenu";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/authcontext";
 
 function Header() {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const handleHomeClick = () => {
     navigate("/");
-  }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   const margin = {
     marginRight: "100px",
@@ -42,11 +49,7 @@ function Header() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div
-            className="collapse navbar-collapse"
-            id="navbarNav"
-            style={margin}
-          >
+          <div className="collapse navbar-collapse" id="navbarNav" style={margin}>
             <ul className="navbar-nav ms-auto">
               <Dropdown className="me-4">
                 <Dropdown.Toggle 
@@ -85,6 +88,7 @@ function Header() {
                   <Dropdown.Item href="#/action-2">Contacto</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+
               <Dropdown align="end">
                 <Dropdown.Toggle
                   variant="primary"
@@ -92,10 +96,14 @@ function Header() {
                   className="ms-3 fs-5 px-4 py-2 no-caret"
                   style={{ backgroundColor: '#b0c4de', color: '#fff', minWidth: '180px', border: 'none'}}
                 >
-                  Iniciar sesión
+                  {user ? `Hola, ${user.nombre}` : "Iniciar sesión"}
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <AuthMenu />
+                  {user ? (
+                    <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
+                  ) : (
+                    <AuthMenu />
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             </ul>

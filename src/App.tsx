@@ -9,24 +9,27 @@ import PatientHistoryPage from './components/patienthistorypage';
 import ProfilePage from './components/profilepage';
 import PsychologistPage from './components/psychologistPage';
 import Dashboard from './components/dashboard';
+import { AuthProvider } from './contexts/authcontext';
 
 function App() {
   return (
-    <Router>
-      <div>
-        <Header />
-        <Routes>
-          <Route path="/" element={<SafeHaven />} />
-          <Route path="/login" element={<AuthMenu />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/agendar-cita" element={<AppointmentPage />} />
-          <Route path="/historial" element={<PatientHistoryPage/>} />
-          <Route path="/perfil" element={<ProfilePage/>} />
-          <Route path="/psicologos" element={<PsychologistPage/>} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/" element={<SafeHaven />} />
+            <Route path="/login" element={<AuthMenu />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/agendar-cita" element={<AppointmentPage />} />
+            <Route path="/historial" element={<PatientHistoryPage />} />
+            <Route path="/perfil" element={<ProfilePage />} />
+            <Route path="/psicologos" element={<PsychologistPage />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

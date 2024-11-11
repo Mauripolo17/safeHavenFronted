@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -7,20 +7,29 @@ function AuthMenu() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
+    apellido: '',
     email: '',
     password: '',
     birthdate: '',
     phone: '',
-    aseguradora: ''
+    aseguradora: '',
+    sexo: '',
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+  
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
@@ -28,18 +37,18 @@ function AuthMenu() {
     }));
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    setError(''); // Limpiar errores anteriores
-
+    setError('');
     try {
       const response = await axios.post("http://localhost:8080/api/auth/login", {
         email: formData.email,
         password: formData.password,
       });
-      
+  
       if (response.status === 200) {
-        // Si las credenciales son correctas, redirigir al dashboard
+        const userData = response.data;
+        localStorage.setItem('user', JSON.stringify(userData));
         navigate("/dashboard");
       }
     } catch (error) {
@@ -48,23 +57,40 @@ function AuthMenu() {
     }
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
-    setError(''); // Limpiar errores anteriores
+    setError('');
 
-    if (!formData.name || !formData.email || !formData.password || !formData.birthdate || !formData.phone || !formData.aseguradora) {
+    if (!formData.name || !formData.email || !formData.password || !formData.birthdate || !formData.phone || !formData.aseguradora || !formData.sexo) {
       setError("Todos los campos son obligatorios");
       return;
     }
 
+    const calculateAge = (birthdate: string | number | Date) => {
+      const birthDate = new Date(birthdate);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDifference = today.getMonth() - birthDate.getMonth();
+    
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    };
+
+    const age = calculateAge(formData.birthdate);
+
     const newPaciente = {
       nombre: formData.name,
+      apellido: formData.apellido,
       correoElectronico: formData.email,
       password: formData.password,
       fechaDeNacimiento: formData.birthdate,
       telefono: formData.phone,
       aseguradora: formData.aseguradora,
       estadoDeSalud: "Saludable",
+      sexo: formData.sexo,
+      edad: age,
     };
 
     try {
@@ -145,6 +171,18 @@ function AuthMenu() {
                 </Form.Group>
               </Col>
               <Col md={6}>
+              <Form.Group controlId="formBasicApellido" className="mb-3">
+                <Form.Label>Apellido</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="apellido"
+                  placeholder="Ingrese su apellido"
+                  value={formData.apellido}
+                  onChange={handleInputChange}
+                />
+              </Form.Group>
+              </Col>
+              <Col md={6}>
                 <Form.Group controlId="formBasicEmail" className="mb-3">
                   <Form.Label>Correo electrónico</Form.Label>
                   <Form.Control
@@ -206,6 +244,20 @@ function AuthMenu() {
                     onChange={handleInputChange}
                   />
                 </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group controlId="formBasicSexo" className="mb-3">
+                <Form.Label>Sexo</Form.Label>
+                <Form.Select
+                  name="sexo"
+                  value={formData.sexo}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                </Form.Select>
+              </Form.Group>
               </Col>
             </Row>
             <Button variant="primary" type="submit" className="w-100 mt-3">
