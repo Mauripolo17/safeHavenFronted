@@ -7,7 +7,6 @@ import doctor from "../assets/images/doctor.png";
 import { Toast } from "primereact/toast";
 import "../assets/styles/style.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
-import { classNames } from "primereact/utils";
 
 function Singup() {
   const [formData, setFormData] = useState({
@@ -16,7 +15,7 @@ function Singup() {
     email: "",
     password: "",
     birthdate: "",
-    edad: 18,
+    edad: 0,
     sexo: "",
     phone: "",
     aseguradora: "",
@@ -32,11 +31,11 @@ function Singup() {
     }));
   };
 
-  const showError = () => {
+  const showError = (error:String) => {
     toast.current.show({
       severity: "error",
       summary: "Error",
-      detail: "Todos los campos son obligatorios",
+      detail: error,
       life: 3000,
       className: "showError",
     });
@@ -56,6 +55,20 @@ function Singup() {
     navigate("/login");
   };
 
+  const calculateAge = (birthdate) => {
+    const birthDate = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+  
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const age = calculateAge(formData.birthdate);
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setError(""); // Limpiar errores anteriores
@@ -68,10 +81,9 @@ function Singup() {
       !formData.birthdate ||
       !formData.phone ||
       !formData.aseguradora ||
-      !formData.edad ||
       !formData.sexo
     ) {
-      showError();
+      showError("Todos los campos son obligatorios");
       // setError("Todos los campos son obligatorios");
       return;
     }
@@ -85,8 +97,8 @@ function Singup() {
       telefono: formData.phone,
       aseguradora: formData.aseguradora,
       estadoDeSalud: "Saludable",
-      edad: formData.edad,
       sexo: formData.sexo,
+      edad:calculateAge(formData.birthdate)
     };
 
     try {
@@ -102,8 +114,10 @@ function Singup() {
         navigate("/login");
       }, 3000);
     } catch (error) {
-      console.error("Error al registrar el paciente:", error);
-      setError("Error al registrar el paciente.");
+      const errorMessage = error?.response?.data?.message || error?.message || "Error desconocido";
+      console.error("Error al registrar el paciente:", errorMessage);
+      showError(errorMessage)
+      // setError("Error al registrar el paciente.");
     }
   };
 
@@ -203,18 +217,6 @@ function Singup() {
                   name="aseguradora"
                   placeholder="Ingrese su aseguradora"
                   value={formData.aseguradora}
-                  onChange={handleInputChange}
-                />
-              </Form.Group>
-            </Col>
-            <Col md={6}>
-              <Form.Group controlId="formBasicEdad" className="mb-3">
-                <Form.Label>Edad</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="edad"
-                  placeholder="Ingrese su edad"
-                  value={formData.edad}
                   onChange={handleInputChange}
                 />
               </Form.Group>

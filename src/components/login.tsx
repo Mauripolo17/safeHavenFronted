@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logoExtendido from "../assets/images/logo-extendido.png";
 import doctor from "../assets/images/doctor.png";
+import { Toast } from "primereact/toast";
+import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -25,10 +27,23 @@ function Login() {
     }));
   };
 
+  const toast = useRef(null);
+
+  const showError = () => {
+    toast.current.show({
+      severity: "error",
+      summary: "Error",
+      detail: "Credenciales incorrectas o usuario no encontrado.",
+      life: 3000,
+      className: "showError",
+    });
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(""); // Limpiar errores anteriores
 
+    
     try {
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
@@ -43,8 +58,10 @@ function Login() {
         navigate("/dashboard");
       }
     } catch (error) {
+      showError();
       console.error("Error al iniciar sesión:", error);
-      setError("Credenciales incorrectas o usuario no encontrado.");
+      
+      //  setError("Credenciales incorrectas o usuario no encontrado.");
     }
   };
 
@@ -83,6 +100,7 @@ function Login() {
             Iniciar sesión
           </Button>
         </Form>
+        <Toast ref={toast} />
         <p className="mt-3 text-center">
           ¿No tienes una cuenta?{" "}
           <span
