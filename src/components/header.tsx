@@ -1,9 +1,8 @@
-import React from "react";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import logoExtendido from "../assets/images/logo-extendido.png";
-import AuthMenu from "./authmenu";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
@@ -13,6 +12,9 @@ function Header() {
     navigate("/");
   }
 
+  const handleLoginClick = () => {
+    navigate("/login");
+  }
   const margin = {
     marginRight: "100px",
   };
@@ -85,19 +87,7 @@ function Header() {
                   <Dropdown.Item href="#/action-2">Contacto</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              <Dropdown align="end">
-                <Dropdown.Toggle
-                  variant="primary"
-                  id="authDropdown"
-                  className="ms-3 fs-5 px-4 py-2 no-caret"
-                  style={{ backgroundColor: '#b0c4de', color: '#fff', minWidth: '180px', border: 'none'}}
-                >
-                  Iniciar sesión
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <AuthMenu />
-                </Dropdown.Menu>
-              </Dropdown>
+              <button type="button" className="btn" id="buttonLogin" onClick={handleLoginClick} ><span id="loginText">Inicia sesion</span></button>
             </ul>
           </div>
         </div>
