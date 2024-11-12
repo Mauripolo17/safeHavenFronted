@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/authcontext';
+import { AuthContext } from '../../contexts/authcontext';
 
 function Dashboard() {
   const authContext = useContext(AuthContext);

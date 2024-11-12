@@ -175,7 +175,7 @@ flex-direction: column;
   justify-items: center;
 }
 
-#singupContainer {
+#signUpContainer {
   display: flex;
   justify-content: center;
   margin-top: 50px;
@@ -183,7 +183,7 @@ flex-direction: column;
   align-items: center;
   flex-direction: column;
   padding: 10px;
-  color: "#black";
+  color: black;
 }
 #loginText {
   margin: 20px;

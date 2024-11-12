@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Card, Form, Row, Col, Button, Alert } from 'react-bootstrap';
 import { FaUser, FaEdit, FaCheck } from 'react-icons/fa';
 import axios from 'axios';
-import { useAuth } from '../contexts/authcontext';
+import { useAuth } from '../../contexts/authcontext';
 
 interface UserProfile {
   id: number;
