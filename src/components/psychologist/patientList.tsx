@@ -71,14 +71,19 @@ const PatientDetail: React.FC<{
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Cerrar
+    <Modal.Footer className="d-flex justify-content-end">
+      <div className="d-flex gap-2">
+        <Button variant="secondary" onClick={onHide} style={{ width: '100px' }}>
+        Cerrar
+        </Button>
+        <Button variant="primary" href="/historial">
+        Ver Historial 
         </Button>
         <Button variant="primary" href="/agendar-cita">
-          Nueva Cita
+        Nueva Cita
         </Button>
-      </Modal.Footer>
+      </div>
+    </Modal.Footer>
     </Modal>
   );
 };

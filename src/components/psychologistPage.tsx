@@ -63,8 +63,8 @@ const PsychologistDetail: React.FC<{
           </Col>
         </Row>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+      <Modal.Footer className="d-flex justify-content-end">
+        <Button variant="secondary" onClick={onHide} style={{ width: '100px' }}>
           Cerrar
         </Button>
         <Button variant="primary" href="/agendar-cita">

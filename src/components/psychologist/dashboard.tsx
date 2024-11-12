@@ -7,7 +7,7 @@ function Dashboard() {
     <Container className="mt-5">
       <h2>¿Qué desea hacer?</h2>
       <Row className="mt-4">
-        <Col md={3}>
+        <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
               <Card.Title>Agendar Cita</Card.Title>
@@ -20,7 +20,7 @@ function Dashboard() {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={3}>
+        <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
               <Card.Title>Ver Pacientes</Card.Title>
@@ -33,20 +33,7 @@ function Dashboard() {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={3}>
-          <Card className="mb-4">
-            <Card.Body>
-              <Card.Title>Ver Historial</Card.Title>
-              <Card.Text>
-                Consultar el historial de las citas y sesiones.
-              </Card.Text>
-              <Button variant="primary" onClick={() => navigate('/historial')}>
-                Ver Historial
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={3}>
+        <Col md={4}>
           <Card className="mb-4">
             <Card.Body>
               <Card.Title>Perfil</Card.Title>
