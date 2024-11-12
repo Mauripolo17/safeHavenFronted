@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/styles/style.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import logoExtendido from "../assets/images/logo-extendido.png";
-import AuthMenu from "./authmenu";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authcontext";
 
@@ -15,9 +14,25 @@ function Header() {
     navigate("/");
   };
 
+  const [contenido, setContenido] = useState(<></>);
+
+  const handleLoginClick = () => {
+    if (!user) {
+      navigate("/login");
+    } else {
+      setContenido(
+        <Dropdown.Menu>
+          {user ? (
+            <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
+          ) : null}
+        </Dropdown.Menu>
+      );
+    }
+  };
   const handleLogout = () => {
     logout();
     navigate("/login");
+    setContenido(<></>)
   };
 
   const margin = {
@@ -49,38 +64,63 @@ function Header() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav" style={margin}>
+          <div
+            className="collapse navbar-collapse"
+            id="navbarNav"
+            style={margin}
+          >
             <ul className="navbar-nav ms-auto">
               <Dropdown className="me-4">
-                <Dropdown.Toggle 
-                  className="no-caret fs-5" 
-                  variant="light" 
+                <Dropdown.Toggle
+                  className="no-caret fs-5"
+                  variant="light"
                   id="dropdown-basic"
-                  onClick={handleHomeClick}>
+                  onClick={handleHomeClick}
+                >
                   Home
                 </Dropdown.Toggle>
               </Dropdown>
               <Dropdown className="me-4">
-                <Dropdown.Toggle className="no-caret fs-5" variant="light" id="dropdown-basic">
+                <Dropdown.Toggle
+                  className="no-caret fs-5"
+                  variant="light"
+                  id="dropdown-basic"
+                >
                   Servicios
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item href="#/action-1">Citas</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Cursos de salud mental</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Cursos de salud mental
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown className="me-4">
-                <Dropdown.Toggle className="no-caret fs-5" variant="light" id="dropdown-basic">
+                <Dropdown.Toggle
+                  className="no-caret fs-5"
+                  variant="light"
+                  id="dropdown-basic"
+                >
                   Relevante
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => navigate('/psicologos')}>Psicologos</Dropdown.Item>
-                  <Dropdown.Item href="#/action-2">Nuestras sesiones</Dropdown.Item>
-                  <Dropdown.Item href="#/action-3">Servicio de acompañamiento</Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate("/psicologos")}>
+                    Psicologos
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Nuestras sesiones
+                  </Dropdown.Item>
+                  <Dropdown.Item href="#/action-3">
+                    Servicio de acompañamiento
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown className="me-4">
-                <Dropdown.Toggle className="no-caret fs-5" variant="light" id="dropdown-basic">
+                <Dropdown.Toggle
+                  className="no-caret fs-5"
+                  variant="light"
+                  id="dropdown-basic"
+                >
                   Sobre nosotros
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
@@ -94,17 +134,18 @@ function Header() {
                   variant="primary"
                   id="authDropdown"
                   className="ms-3 fs-5 px-4 py-2 no-caret"
-                  style={{ backgroundColor: '#b0c4de', color: '#fff', minWidth: '180px', border: 'none'}}
+                  style={{
+                    backgroundColor: "#b0c4de",
+                    color: "#fff",
+                    minWidth: "180px",
+                    border: "none",
+                  }}
                 >
-                  {user ? `Hola, ${user.nombre}` : "Iniciar sesión"}
+                  <span onClick={handleLoginClick}>
+                    {user ? `Hola, ${user.nombre}` : "Iniciar sesión"}
+                  </span>
                 </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {user ? (
-                    <Dropdown.Item onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
-                  ) : (
-                    <AuthMenu />
-                  )}
-                </Dropdown.Menu>
+                <div id="CloseSession">{contenido}</div>
               </Dropdown>
             </ul>
           </div>

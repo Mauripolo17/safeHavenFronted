@@ -23,7 +23,7 @@ function Singup() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -31,7 +31,7 @@ function Singup() {
     }));
   };
 
-  const showError = (error:String) => {
+  const showError = (error: String) => {
     toast.current.show({
       severity: "error",
       summary: "Error",
@@ -60,8 +60,11 @@ function Singup() {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDifference = today.getMonth() - birthDate.getMonth();
-  
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
       age--;
     }
     return age;
@@ -69,7 +72,7 @@ function Singup() {
 
   const age = calculateAge(formData.birthdate);
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setError(""); // Limpiar errores anteriores
 
@@ -98,7 +101,7 @@ function Singup() {
       aseguradora: formData.aseguradora,
       estadoDeSalud: "Saludable",
       sexo: formData.sexo,
-      edad:calculateAge(formData.birthdate)
+      edad: calculateAge(formData.birthdate),
     };
 
     try {
@@ -106,17 +109,16 @@ function Singup() {
         "http://localhost:8080/api/pacientes",
         newPaciente
       );
-
       console.log("Paciente registrado:", response.data);
       showSuccess();
-
       setTimeout(() => {
         navigate("/login");
       }, 3000);
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || error?.message || "Error desconocido";
+      const errorMessage =
+        error?.response?.data?.message || error?.message || "Error desconocido";
       console.error("Error al registrar el paciente:", errorMessage);
-      showError(errorMessage)
+      showError(errorMessage);
       // setError("Error al registrar el paciente.");
     }
   };

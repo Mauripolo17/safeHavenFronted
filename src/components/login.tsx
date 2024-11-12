@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,6 +6,7 @@ import logoExtendido from "../assets/images/logo-extendido.png";
 import doctor from "../assets/images/doctor.png";
 import { Toast } from "primereact/toast";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
+import { useAuth } from "../contexts/authcontext";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -15,11 +16,21 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const { user, logout } = useAuth();
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+  
+
   const toggleAuthMode = () => {
     navigate("/singup");
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -54,8 +65,10 @@ function Login() {
       );
 
       if (response.status === 200) {
-        // Si las credenciales son correctas, redirigir al dashboard
+        const userData = response.data;
+        localStorage.setItem('user', JSON.stringify(userData));        
         navigate("/dashboard");
+        window.location.reload();
       }
     } catch (error) {
       showError();
