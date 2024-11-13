@@ -69,6 +69,18 @@ button {
   border-radius: 8%;
 }
 
+#SafeHavenButton{
+  width: 100%;
+  float: left;
+  font-size: 20px;
+  color: #ffffff;
+  background-color: #8baedb;
+  border-color: #b0c4de00;
+  text-align: center;
+  padding: 3px;
+  border-radius: 8px;
+}
+
 .safeHaven {
   padding-top: 50px;
   padding-left: 50px;

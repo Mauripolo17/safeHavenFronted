@@ -7,6 +7,7 @@ const PsychologistDetail: React.FC<{
   psychologist: Psychologist;
   show: boolean;
   onHide: () => void;
+  
 }> = ({ psychologist, show, onHide }) => {
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -74,6 +75,7 @@ const PsychologistDetail: React.FC<{
     </Modal>
   );
 };
+
 
 const PsychologistsPage: React.FC = () => {
   const [psychologists, setPsychologists] = useState<Psychologist[]>([]);

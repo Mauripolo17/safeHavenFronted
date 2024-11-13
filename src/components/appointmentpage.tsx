@@ -235,6 +235,7 @@ function AppointmentPage() {
           <Col md={6}>
           <Button
             variant="primary"
+            id="SafeHavenButton"
             type="submit"
             disabled={!selectedPsychologist}
             onClick={handleRegisterCita}
