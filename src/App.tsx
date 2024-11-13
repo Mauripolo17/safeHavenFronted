@@ -3,6 +3,7 @@ import SafeHaven from "./components/menu";
 import Header from "./components/header";
 import { Footer } from "./components/footer";
 import AppointmentPage from "./components/patient/appointmentPage";
+import PsychologistAppointmentPage from "./components/psychologist/appointmentPage";
 import PatientHistoryPage from "./components/patient/patientHistoryPage";
 import ProfilePage from "./components/patient/profilePage";
 import PsychologistPage from "./components/psychologistPage";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboardPsychologist" element={<DashboardPsychologist />} />
             <Route path="/agendar-cita" element={<AppointmentPage />} />
+            <Route path="/agendar-cita-psicologo" element={<PsychologistAppointmentPage />} />
             <Route path="/historial" element={<PatientHistoryPage />} />
             <Route path="/perfil" element={<ProfilePage />} />
             <Route path="/psicologos" element={<PsychologistPage />} />

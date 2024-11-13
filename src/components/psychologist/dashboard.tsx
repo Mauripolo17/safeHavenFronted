@@ -14,7 +14,7 @@ function Dashboard() {
               <Card.Text>
                 Programa una cita con uno de nuestros pacientes.
               </Card.Text>
-              <Button variant="primary" onClick={() => navigate('/agendar-cita')}>
+              <Button variant="primary" onClick={() => navigate('/agendar-cita-psicologo')}>
                 Agendar Cita
               </Button>
             </Card.Body>
