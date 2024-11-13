@@ -1,22 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Card, Table, Badge, Button, Modal } from 'react-bootstrap';
 import { FaUser, FaEnvelope, FaPhone, FaCalendar, FaIdCard, FaHeart } from 'react-icons/fa';
-
-interface Patient {
-  id: number;
-  nombre: string;
-  apellido: string;
-  correoElectronico: string;
-  password: string;
-  edad: number;
-  telefono: number;
-  sexo: string;
-  fechaDeNacimiento: string;
-  aseguradora: string;
-  estadoDeSalud: string;
-  fechaDeRegistro: string;
-  rol: number;
-}
+import { patientService, Patient } from '../../api/patientService';
 
 const PatientDetail: React.FC<{
   patient: Patient;
@@ -89,58 +74,29 @@ const PatientDetail: React.FC<{
 };
 
 const PatientsPage: React.FC = () => {
-  // Sample data - replace with actual API call later
-  const samplePatients: Patient[] = [
-    {
-      id: 7,
-      nombre: "Kenma",
-      apellido: "Kozume",
-      correoElectronico: "kenma@gmail.com",
-      password: "12345",
-      edad: 22,
-      telefono: 3122342343,
-      sexo: "Masculino",
-      fechaDeNacimiento: "2002-08-21",
-      aseguradora: "CooSalud",
-      estadoDeSalud: "Saludable",
-      fechaDeRegistro: "2024-11-11",
-      rol: 2
-    },
-    {
-      id: 8,
-      nombre: "Shoyo",
-      apellido: "Hinata",
-      correoElectronico: "hinata@gmail.com",
-      password: "12345",
-      edad: 21,
-      telefono: 3157834562,
-      sexo: "Masculino",
-      fechaDeNacimiento: "2003-06-21",
-      aseguradora: "Nueva EPS",
-      estadoDeSalud: "En Tratamiento",
-      fechaDeRegistro: "2024-10-15",
-      rol: 2
-    },
-    {
-      id: 9,
-      nombre: "Kiyoko",
-      apellido: "Shimizu",
-      correoElectronico: "kiyoko@gmail.com",
-      password: "12345",
-      edad: 24,
-      telefono: 3167834562,
-      sexo: "Femenino",
-      fechaDeNacimiento: "2000-01-06",
-      aseguradora: "Sura",
-      estadoDeSalud: "Saludable",
-      fechaDeRegistro: "2024-09-20",
-      rol: 2
-    }
-  ];
-
-  const [patients] = useState<Patient[]>(samplePatients);
+  const [patients, setPatients] = useState<Patient[]>([]);
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadPatients();
+  }, []);
+
+  const loadPatients = async () => {
+    try {
+      setLoading(true);
+      const data = await patientService.getAllPatients();
+      setPatients(data);
+      setError(null);
+    } catch (err) {
+      setError("Error al cargar los pacientes. Por favor, intente nuevamente más tarde.");
+      console.error("Error loading patients:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handlePatientClick = (patient: Patient) => {
     setSelectedPatient(patient);
@@ -155,6 +111,28 @@ const PatientsPage: React.FC = () => {
     };
     return <Badge bg={variants[status as keyof typeof variants] || 'secondary'}>{status}</Badge>;
   };
+
+  if (loading) {
+    return (
+      <Container className="mt-5">
+        <div className="text-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Cargando...</span>
+          </div>
+        </div>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container className="mt-5">
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <Container className="mt-5">
