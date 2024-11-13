@@ -8,7 +8,7 @@ import { Toast } from "primereact/toast";
 import "../assets/styles/style.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 
-function Singup() {
+function SignUp() {
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -259,4 +259,4 @@ function Singup() {
   );
 }
 
-export default Singup;
+export default SignUp;

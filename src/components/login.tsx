@@ -27,7 +27,7 @@ function Login() {
   
 
   const toggleAuthMode = () => {
-    navigate("/singup");
+    navigate("/signUp");
   };
 
   const handleInputChange = (e: { target: { name: any; value: any; }; }) => {

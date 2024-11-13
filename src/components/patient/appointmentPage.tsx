@@ -1,13 +1,13 @@
 import { useContext, useState, useRef } from "react";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import axios from "axios";
-import drBayterImg from "../assets/images/dr-bayter.jpeg";
-import drPechyImg from "../assets/images/dr-pechy.png";
-import drChuroImg from "../assets/images/dr-churo.png";
-import verificationImg from "../assets/images/verification.png";
-import { AuthContext } from "../contexts/authcontext";
+import drBayterImg from "../../assets/images/dr-bayter.jpeg";
+import drPechyImg from "../../assets/images/dr-pechy.png";
+import drChuroImg from "../../assets/images/dr-churo.png";
+import verificationImg from "../../assets/images/verification.png";
+import { AuthContext } from "../../contexts/authcontext";
 import { Toast } from "primereact/toast";
-import "../assets/styles/style.css";
+import "../../assets/styles/style.css";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 
 function AppointmentPage() {
