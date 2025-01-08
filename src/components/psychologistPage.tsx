@@ -31,7 +31,7 @@ const PsychologistDetail: React.FC<{
                   color={index < 4 ? "#ffc107" : "#e4e5e9"}
                 />
               ))}
-            </div>
+            </div>:
           </Col>
           <Col md={8}>
             <h3>{`${psychologist.nombre} ${psychologist.apellido}`}</h3>

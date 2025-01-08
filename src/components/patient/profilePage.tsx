@@ -89,6 +89,7 @@ const ProfilePage: React.FC = () => {
       const response = await axios.put(`http://localhost:8080/api/pacientes/${profile.id}`, updatedPacienteData);
       if (response.status === 200) {
         setProfile(response.data);
+        localStorage.setItem('user', JSON.stringify(response.data))
         setUser(response.data);
       }
     } catch (error) {

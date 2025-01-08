@@ -21,7 +21,7 @@ function App() {
         <div>
           <Header />
           <Routes>
-            <Route path="/" element={<SafeHaven />} />
+              
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />

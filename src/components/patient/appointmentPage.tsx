@@ -27,7 +27,7 @@ function AppointmentPage() {
     tipoCita: "",
     insertBy: user?.correoElectronico,
     paciente: user?.id,
-    psicologo: 57,
+    psicologo: 2,
     consultorio: 3,
   });
 
@@ -62,7 +62,7 @@ function AppointmentPage() {
   };
   const psychologists = [
     {
-      name: "Dr. Bayter",
+      name: "Dr. Carlos Bayter",
       image: drBayterImg,
     },
     {
@@ -101,7 +101,7 @@ function AppointmentPage() {
       tipoCita: formData.tipoCita,
       insertBy: user?.correoElectronico,
       paciente: user?.id,
-      psicologo: 57,
+      psicologo: 2,
       consultorio: 3,
     };
 

@@ -24,6 +24,15 @@ export const psychologistService = {
     } catch (error) {
       throw new Error('Failed to fetch psychologists');
     }
+  },
+
+  getPsychologistById:async (id:number): Promise<Psychologist> => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/psicologos/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to fetch psychologists');
+    }
   }
 };
 

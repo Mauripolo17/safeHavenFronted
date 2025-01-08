@@ -67,7 +67,16 @@ function Login() {
       if (response.status === 200) {
         const userData = response.data;
         localStorage.setItem('user', JSON.stringify(userData));        
-        navigate("/dashboard");
+        
+        if(userData.rol==4){
+          setTimeout(()=>{
+            navigate("/dashboard");
+          }, 100)
+          
+        }else{
+          navigate("/dashboardPsychologist");
+        }
+        
         window.location.reload();
       }
     } catch (error) {

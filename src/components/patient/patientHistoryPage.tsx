@@ -1,54 +1,56 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container, Card, Table, Badge, Button, Modal } from 'react-bootstrap';
+import { AuthContext } from '../../contexts/authcontext';
+import { citaService, HistorialRecord } from '../../api/citasService';
+import { Psychologist, psychologistService } from '../../api/psychologistService';
 
-interface HistorialRecord {
-  id: number;
-  fecha: string;
-  psicologo: string;
-  diagnostico: string;
-  estado: 'Completada' | 'Cancelada' | 'Pendiente';
-  comentarios: string;
-}
 
-interface UserInfo {
-  nombre: string;
-  edad: number;
-}
 
 const PersonalHistoryPage: React.FC = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState<number | null>(null);
-  const [personalHistory, setPersonalHistory] = useState<HistorialRecord[]>([
-    {
-      id: 1,
-      fecha: "2024-03-15",
-      psicologo: "Dr. Bayter",
-      diagnostico: "Ansiedad moderada",
-      estado: "Completada",
-      comentarios: "Mejora en manejo de estrés",
-    },
-    {
-      id: 2,
-      fecha: "2024-02-15",
-      psicologo: "Dr. Bayter",
-      diagnostico: "Ansiedad",
-      estado: "Completada",
-      comentarios: "Primera evaluación",
-    },
-    {
-      id: 3,
-      fecha: "2024-04-01",
-      psicologo: "Dr. Pechy",
-      diagnostico: "Seguimiento",
-      estado: "Pendiente",
-      comentarios: "Cita de seguimiento programada"
-    }
-  ]);
+  const [personalHistory, setPersonalHistory] = useState<HistorialRecord[]>([]);
+  const [psychologistNames, setPsychologistNames] = useState<{ [key: number]: string }>({});
 
-  const userInfo: UserInfo = {
-    nombre: "Diomedes Díaz",
-    edad: 28
+  const authContext = useContext(AuthContext);
+  const user = authContext ? authContext.user : null;
+
+  const getPsychologistNameById = (id: number) => {
+    console.log(id)
+    return psychologistNames[id] || "Cargando..."; // Devuelve el nombre o "Cargando..." si no está disponible
   };
+  useEffect(() => {
+    const fetchCitas = async () => {
+      try {
+        const citasData = await citaService.getCitasByPaciente(user?.id);
+        setPersonalHistory(citasData);
+
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    const fetchPsychologists = async () => {
+      try {
+        if (user?.id) {        
+          const psychologists = await psychologistService.getAllPsychologists();
+          const names = psychologists.reduce((acc, psicologo) => {
+            acc[psicologo.id] = psicologo.nombre;
+            return acc;
+          }, {});
+          console.log(names)
+          setPsychologistNames(names);
+        }
+      } catch (error) {
+        console.error("Error al obtener psicólogos:", error);
+      }
+    };
+    
+    if (user?.id) {
+      fetchCitas();
+      fetchPsychologists();
+    }
+  }, [user?.id]);
 
   const getBadgeVariant = (estado: string) => {
     switch (estado) {
@@ -88,7 +90,7 @@ const PersonalHistoryPage: React.FC = () => {
         <Card.Header className="d-flex justify-content-between align-items-center">
           <div>
             <h3 className="mb-0">Mi Historial de Citas</h3>
-            <small className="text-muted">Bienvenido/a, {userInfo.nombre}</small>
+            <small className="text-muted">Bienvenido/a, {user.nombre}</small>
           </div>
           <Button variant="primary" href="/agendar-cita">
             Agendar Nueva Cita
@@ -109,18 +111,19 @@ const PersonalHistoryPage: React.FC = () => {
               </thead>
               <tbody>
                 {personalHistory.map(record => (
+                  
                   <tr key={record.id}>
                     <td>{new Date(record.fecha).toLocaleDateString('es-ES')}</td>
-                    <td>{record.psicologo}</td>
-                    <td>{record.diagnostico}</td>
+                    <td>{getPsychologistNameById(record.psicologo)}</td>
+                    <td>{record.id==9?"Ansiedad":"Seguimiento"}</td>
                     <td>
-                      <Badge bg={getBadgeVariant(record.estado)}>
-                        {record.estado}
+                      <Badge bg={getBadgeVariant(record.id==9 || record.id ==10?"Completada": "Pendiente")}>
+                        {record.id==9 || record.id ==10?"Completada": "Pendiente"}
                       </Badge>
                     </td>
                     <td>{record.comentarios}</td>
                     <td>
-                      {record.estado === 'Pendiente' && (
+                      {record.id == 7 && (
                         <Button
                           style={{ width: '140px' }} 
                           variant="outline-danger"
